@@ -19,6 +19,30 @@ h1 {
   text-align: center;
 }
 
+/* Дополнительные стили для кнопки выхода */
+.todo-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .todo-actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .complete-btn, .delete-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+}
+
 .add-todo {
   display: flex;
   margin-bottom: 20px;

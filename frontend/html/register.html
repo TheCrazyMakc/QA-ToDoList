@@ -90,8 +90,13 @@ a:hover {
   const username = document.querySelector('input[type="text"]').value;
   const password = document.querySelector('input[type="password"]').value;
 
+  if (password.length < 4) {
+    alert('Пароль должен содержать минимум 4 символа');
+    return;
+  }
+
   try {
-    const response = await fetch('/auth/register', {
+    const response = await fetch('http://localhost:3000/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
@@ -100,13 +105,17 @@ a:hover {
     const data = await response.json();
     
     if (data.success) {
+      // Сохраняем токен и данные пользователя
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      alert('Регистрация успешна!');
       // Перенаправляем на страницу todo
       window.location.href = data.redirect;
     } else {
       alert(data.error || 'Ошибка регистрации');
     }
   } catch (err) {
-    alert('Ошибка сети');
+    alert('Ошибка сети. Убедитесь, что сервер запущен');
   }
 });
 </script>
