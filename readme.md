@@ -296,12 +296,6 @@ Authorization: Bearer <token>
 | completed | BOOLEAN | DEFAULT FALSE | Статус выполнения |
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Дата создания |
 
-### Индексы
-
-```sql
-CREATE INDEX idx_todos_user_id ON todos(user_id);
-CREATE INDEX idx_users_username ON users(username);
-```
 
 ## 🎨 UI/UX требования
 
