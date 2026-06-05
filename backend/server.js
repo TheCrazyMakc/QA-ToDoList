@@ -15,6 +15,22 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
+// Функция для получения локального IP адреса
+function getLocalIp() {
+    const { networkInterfaces } = require('os');
+    const nets = networkInterfaces();
+    
+    for (const name of Object.keys(nets)) {
+        for (const net of nets[name]) {
+            // Пропускаем non-IPv4 и internal адреса
+            if (net.family === 'IPv4' && !net.internal) {
+                return net.address;
+            }
+        }
+    }
+    return 'localhost';
+}
+
 // Middleware для проверки JWT токена
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -225,7 +241,11 @@ app.delete('/api/todos/:id', authenticateToken, async (req, res) => {
 });
 
 // Запуск сервера
-app.listen(PORT, () => {
+// app.listen(PORT, () => {
+//     console.log(`🚀 Сервер запущен на http://localhost:${PORT}`);
+//     console.log(`📝 Страницы доступны по адресу: http://localhost:${PORT}/html/index.html`);
+// });
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Сервер запущен на http://localhost:${PORT}`);
-    console.log(`📝 Страницы доступны по адресу: http://localhost:${PORT}/html/index.html`);
+    console.log(`📱 Доступно в сети по адресу: http://${getLocalIp()}:${PORT}`);
 });
